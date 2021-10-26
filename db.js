@@ -3,7 +3,7 @@ const db = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
   })
 
-sequelize.authenticate().then(
+Sequelize.authenticate().then(
     function() {
         console.log('Connected to finalProject postgres database.');
     },
