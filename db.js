@@ -1,9 +1,10 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
-  })
+const sequelize = new Sequelize('finalProject', 'postgres', 'Ks1520027!', {
+    host: 'localhost',
+    dialect: 'postgres'
+});
 
-Sequelize.authenticate().then(
+sequelize.authenticate().then(
     function() {
         console.log('Connected to finalProject postgres database.');
     },
@@ -12,4 +13,4 @@ Sequelize.authenticate().then(
     }
 );
 
-module.exports = db;
+module.exports = sequelize;
