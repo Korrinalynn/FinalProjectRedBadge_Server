@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('finalProject', 'postgres', 'Ks1520027!', {
-    host: 'localhost',
-    dialect: 'postgres'
-});
+const db = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+  })
 
 sequelize.authenticate().then(
     function() {
@@ -13,4 +12,4 @@ sequelize.authenticate().then(
     }
 );
 
-module.exports = sequelize;
+module.exports = db;
