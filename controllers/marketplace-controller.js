@@ -1,52 +1,51 @@
 let express = require('express');
 let router = express.Router();
 let validateSession = require('../middleware/validateSession');
-const character = require('../db').import('../models/character');
+const marketplace = require('../db').import('../models/marketplace');
 
 router.get('/practice', function(req, res){
     res.send("This is a practice route.");
 });
 
-router.post('/create', validateSession, (req, res) => {
-    const characterCreate = {
-        name: req.body.character.name,
-        level: req.body.character.level,
-        avatar: req.body.character.avatar,
-        bio: req.body.character.bio
+router.post('/add', validateSession, (req, res) => {
+    const marketplaceAdd = {
+        id: req.body.marketplace.id,
+        icon: req.body.marketplace.icon,
+        name: req.body.marketplace.name,
+        userId: req.user.id
     }
-    character.create(characterCreate)
-    .then(character => res.status(200).json(character))
+    marketplace.create(marketplaceAdd)
+    .then(marketplace => res.status(200).json(marketplace))
     .catch(err => res.status(500).json({error: err}))
 })
 
 router.get('/', validateSession, (req, res) => {
     let userid = req.user.id
-    character.findAll({
+    marketplace.findAll({
         where: { owner: userid }
     })
-    .then(character => res.status(200).json(character))
+    .then(marketplace => res.status(200).json(marketplace))
     .catch(err => res.status(500).json({ error: err}))
 });
 
 router.put('/:id', validateSession, function(req, res) {
-    const updateCharacter = {
-        name: req.body.character.name,
-        level: req.body.character.level,
-        bio: req.body.character.bio
+    const updateMarketplace = {
+        id: req.body.marketplace.id,
+        name: req.body.marketplace.name,
     };
 
     const query = { where: { id: req.params.id, owner: req.user.id} };
 
-    character.update(updateCharacter, query)
-    .then((characters) => res.status(200).json(characters))
+    marketplace.update(updateMarketplace, query)
+    .then((marketplace) => res.status(200).json(marketplace))
     .catch((err) => res.status(500).json({ error: err.message}));
 });
 
 router.delete('/:id', validateSession, function (req, res) {
     const query = { where: { id: req.params.id, owner: req.user.id } };
 
-    character.destroy(query)
-    .then(() => res.status(200).json({ message: "Character deleted" }))
+    marketplace.destroy(query)
+    .then(() => res.status(200).json({ message: "Item removed" }))
     .catch((err) => res.status(500).json({ error: err }));
 });
 
