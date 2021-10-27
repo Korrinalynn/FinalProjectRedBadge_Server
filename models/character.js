@@ -1,6 +1,15 @@
 module.exports = function (sequelize, DataTypes) {
     const Character = sequelize.define('character', {
-        name: {
+        email: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+            unique: true
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        characterName: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -10,11 +19,15 @@ module.exports = function (sequelize, DataTypes) {
         },
         avatar: {
             type: DataTypes.STRING(2000),
-            allowNull: false
+            allowNull: true
         },
         bio: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(2000),
             allowNull: true
+        },
+        isAdmin: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
         }
     })
     return Character;
