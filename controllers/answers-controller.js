@@ -9,8 +9,8 @@ router.get('/practice', function (req, res) {
 
 router.post('/create', validateSession, (req, res) => {
     const answersCreate = {
-        answer: req.body.answer.answer,
-        questionId: req.body.question.question,
+        answer: req.body.answer,
+        questionId: req.body.questionId,
         characterId: req.character.id
     }
     answers.create(answersCreate)
@@ -18,7 +18,7 @@ router.post('/create', validateSession, (req, res) => {
         .catch(err => res.status(500).json({ error: err }))
 })
 
-router.get('/get', (req, res) => {
+router.get('/get', validateSession, (req, res) => {
     let characterId = req.character.id
     answers.findAll({
         where: { characterId: characterId }
@@ -27,23 +27,23 @@ router.get('/get', (req, res) => {
         .catch(err => res.status(500).json({ error: err }))
 });
 
-router.put('/update', validateSession, function (req, res) {
-    const updateanswers = {
-        answer: req.body.answers.answer
+router.put('/update/:id', validateSession, function (req, res) {
+    const updateAnswers = {
+        answer: req.body.answer
     };
 
     const query = { where: { id: req.params.id, characterId: req.character.id } };
 
-    answers.update(updateanswers, query)
+    answers.update(updateAnswers, query)
         .then((answer) => res.status(200).json(answer))
         .catch((err) => res.status(500).json({ error: err.message }));
 });
 
-router.delete('/delete', validateSession, function (req, res) {
+router.delete('/delete/:id', validateSession, function (req, res) {
     const query = { where: { id: req.params.id, characterId: req.character.id } };
 
     answers.destroy(query)
-        .then(() => res.status(200).json({ message: "answer Removed." }))
+        .then(() => res.status(200).json({ message: "Answer Removed." }))
         .catch((err) => res.status(500).json({ error: err }));
 });
 
