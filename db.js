@@ -5,10 +5,10 @@ const sequelize = new Sequelize('finalProject', 'postgres', 'Ks1520027!', {
 });
 
 sequelize.authenticate().then(
-    function() {
+    function () {
         console.log('Connected to finalProject postgres database.');
     },
-    function(err){
+    function (err) {
         console.log(err);
     }
 );
