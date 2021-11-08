@@ -41,8 +41,8 @@ router.put('/:id', validateSession, function (req, res) {
         .catch((err) => res.status(500).json({ error: err.message }));
 });
 
-router.delete('/:id', validateSession, function (req, res) {
-    const query = { where: { id: req.params.id, owner: req.character.id } };
+router.delete('/delete', validateSession, function (req, res) {
+    const query = { where: { id: req.character.id } };
 
     marketplace.destroy(query)
         .then(() => res.status(200).json({ message: "Item removed" }))
