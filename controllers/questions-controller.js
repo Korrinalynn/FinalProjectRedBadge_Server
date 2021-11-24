@@ -9,7 +9,7 @@ router.get('/practice', function (req, res) {
 
 router.post('/create', validateSession, (req, res) => {
     const questionsCreate = {
-        question: req.body.question.question,
+        question: req.body.question,
         characterId: req.character.id
     }
     questions.create(questionsCreate)
@@ -26,18 +26,9 @@ router.get('/get', validateSession, (req, res) => {
         .catch(err => res.status(500).json({ error: err }))
 });
 
-router.get('/getAll', (req, res) => {
-    let characterId = req.character.id
-    questions.findAll({
-        where: { characterId: characterId, id: req.params.id }
-    })
-        .then(question => res.status(200).json(question))
-        .catch(err => res.status(500).json({ error: err }))
-});
-
-router.put('/update', validateSession, function (req, res) {
+router.put('/update/:id', validateSession, function (req, res) {
     const updateQuestions = {
-        question: req.body.questions.question
+        question: req.body.question
     };
 
     const query = { where: { id: req.params.id, characterId: req.character.id } };
@@ -47,7 +38,7 @@ router.put('/update', validateSession, function (req, res) {
         .catch((err) => res.status(500).json({ error: err.message }));
 });
 
-router.delete('/delete', validateSession, function (req, res) {
+router.delete('/delete/:id', validateSession, function (req, res) {
     const query = { where: { id: req.params.id, characterId: req.character.id } };
 
     questions.destroy(query)
