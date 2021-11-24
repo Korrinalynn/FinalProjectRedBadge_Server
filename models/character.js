@@ -15,7 +15,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         level: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: true
         },
         avatar: {
             type: DataTypes.STRING(2000),
@@ -27,7 +27,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,
-            allowNull: false
+            allowNull: true
         }
     })
     return Character;

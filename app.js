@@ -7,13 +7,13 @@ const character = require("./controllers/character-controller");
 const questions = require("./controllers/questions-controller");
 const answers = require("./controllers/answers-controller");
 // const marketplace = require("./controllers/marketplace-controller");   **stretch goal**
-
 sequelize.sync();
-// sequelize.sync({force:true});
-
+//sequelize.sync({force:true});
+app.use(require("./middleware/headers"));
 app.use(express.json());
 
 app.use("/character", character);
+app.use(require("./middleware/validateSession"));
 app.use("/questions", questions);
 app.use("/answers", answers);
 // app.use("/marketplace", marketplace);    **stretch goal**

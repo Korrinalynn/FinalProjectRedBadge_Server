@@ -10,6 +10,7 @@ router.get('/practice', function (req, res) {
 });
 
 router.post('/register', (req, res) => {
+    console.log(req.body.character);
     Character.create({
         email: req.body.character.email,
         password: bcrypt.hashSync(req.body.character.password, 13),
@@ -20,6 +21,7 @@ router.post('/register', (req, res) => {
     })
     .then (
         function createSuccess(character) {
+            console.log(character);
           let token = jwt.sign({id: character.id}, process.env.JWT_SECRET, {expiresIn: 60 * 60 * 24});
           res.status(200).json({
             character: character,
